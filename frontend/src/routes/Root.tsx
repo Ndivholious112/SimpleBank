@@ -25,28 +25,39 @@ export default function Root() {
   return (
     <div className="app min-h-screen">
       <div className="container">
-        <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-          <Link to="/" className="font-semibold" style={{ color: 'var(--fg)' }}>SimpleBank</Link>
-          <div className="space-x-4">
-            {!token ? (
-              <>
-                <Link to="/login" style={{ color: 'var(--fg)' }}>Login</Link>
-                <Link to="/register" style={{ color: 'var(--fg)' }}>Register</Link>
-              </>
-            ) : (
-              <button onClick={logout} className="btn">Logout</button>
-            )}
-          </div>
-        </nav>
+        {token && (
+          <nav style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'flex-end', 
+            marginBottom: 16,
+            padding: '8px 0'
+          }}>
+            <button onClick={logout} className="btn" style={{ fontSize: '0.9rem' }}>
+              Logout
+            </button>
+          </nav>
+        )}
         <Outlet />
-        <div className="card" style={{ position: 'sticky', bottom: 0, marginTop: 16, padding: 8, background: 'white', color: '#111', border: '1px solid #eee' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)' }}>
-            <Tab to="/" label="Home" />
-            <Tab to="/analysis" label="Analysis" />
-            <Tab to="/transaction" label="Transaction" />
-            <Tab to="/profile" label="Profile" />
+        {token && (
+          <div className="card tabbar" style={{ 
+            position: 'sticky', 
+            bottom: 0, 
+            marginTop: 16, 
+            padding: '8px', 
+            background: 'white', 
+            color: '#111', 
+            border: '1px solid #eee',
+            zIndex: 100
+          }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)' }}>
+              <Tab to="/" label="Home" />
+              <Tab to="/analysis" label="Analysis" />
+              <Tab to="/transaction" label="Transaction" />
+              <Tab to="/profile" label="Profile" />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )

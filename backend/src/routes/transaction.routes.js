@@ -19,8 +19,8 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const { amount, currency = 'USD', description } = req.body;
-    if (amount == null || amount < 0) {
-      return res.status(400).json({ message: 'Amount must be provided and non-negative' });
+    if (amount == null || isNaN(amount)) {
+      return res.status(400).json({ message: 'Amount must be provided' });
     }
 
     const tx = await Transaction.create({

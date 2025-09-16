@@ -7,7 +7,22 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({ origin: process.env.CORS_ORIGIN || '*', credentials: true }));
+// Allow multiple comma-separated origins via CORS_ORIGIN env (e.g. "http://localhost:5173,http://localhost:5174")
+const corsOriginsEnv = process.env.CORS_ORIGIN || '*';
+const allowedOrigins = corsOriginsEnv.split(',').map((o) => o.trim());
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true); // allow non-browser or same-origin requests
+      if (allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error(`Not allowed by CORS: ${origin}`));
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.get('/health', (req, res) => {

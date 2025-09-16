@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import api from '../lib/api'
 
 interface Tx { _id: string; amount: number; description?: string; createdAt: string }
 
@@ -11,8 +11,7 @@ export default function TransactionsPage() {
 
   useEffect(() => {
     if (!token) return
-    const client = axios.create({ headers: { Authorization: `Bearer ${token}` } })
-    client.get('/api/transactions').then((res) => setTxs(res.data))
+    api.get('/api/transactions').then((res) => setTxs(res.data))
   }, [token])
 
   return (
