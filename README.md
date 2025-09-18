@@ -8,14 +8,6 @@ Welcome to **SimpleBank** — your **minimalist expense tracker** built with
 
 Track your spending. Stay in control. Keep it simple. 🚀  
 
----
-
-## 🖼 Preview
-
-![SimpleBank Homepage](./screenshot/homepage.png)
-
----
-
 ## ✨ Features
 - 🔐 **Authentication** – Secure register & login with JWT  
 - 📊 **Expense Tracking** – Add, view, and manage transactions  
@@ -39,6 +31,14 @@ Track your spending. Stay in control. Keep it simple. 🚀
    JWT_SECRET=your_super_secret_key
    CORS_ORIGIN=http://localhost:5173
 ````
+
+---
+
+## 🖼 Preview
+
+![SimpleBank Homepage](./screenshot/homepage.png)
+
+---
 
 2. Run the backend server:
 
