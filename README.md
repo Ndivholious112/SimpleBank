@@ -10,6 +10,12 @@ Track your spending. Stay in control. Keep it simple. 🚀
 
 ---
 
+## 🖼 Preview
+
+![SimpleBank Homepage](./screenshots/homepage.png)
+
+---
+
 ## ✨ Features
 - 🔐 **Authentication** – Secure register & login with JWT  
 - 📊 **Expense Tracking** – Add, view, and manage transactions  
