@@ -15,8 +15,8 @@ export default function Root() {
     const active = pathname === to || (to === '/' && pathname === '/')
     return (
       <Link to={to} style={{ textDecoration: 'none', color: 'inherit' }}>
-        <div style={{ display: 'grid', placeItems: 'center', padding: '10px 8px', color: active ? 'black' : 'var(--fg-muted)', fontWeight: active ? 700 as any : 500 }}>
-          <div style={{ fontSize: 12 }}>{label}</div>
+        <div className="tab" style={{ color: active ? 'var(--fg)' : 'var(--fg-muted)', fontWeight: active ? 700 as any : 500 }}>
+          <div className="label">{label}</div>
         </div>
       </Link>
     )
@@ -40,16 +40,7 @@ export default function Root() {
         )}
         <Outlet />
         {token && (
-          <div className="card tabbar" style={{ 
-            position: 'sticky', 
-            bottom: 0, 
-            marginTop: 16, 
-            padding: '8px', 
-            background: 'white', 
-            color: '#111', 
-            border: '1px solid #eee',
-            zIndex: 100
-          }}>
+          <div className="card tabbar">
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)' }}>
               <Tab to="/" label="Home" />
               <Tab to="/analysis" label="Analysis" />

@@ -6,6 +6,7 @@ const transactionSchema = new mongoose.Schema(
     // Allow negative amounts for "send" and positive amounts for "receive"
     amount: { type: Number, required: true },
     currency: { type: String, required: true, default: 'ZAR' },
+    category: { type: String, default: 'Uncategorized', index: true },
     description: { type: String },
     status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'completed' },
   },

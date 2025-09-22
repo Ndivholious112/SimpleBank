@@ -10,6 +10,7 @@ interface Transaction {
   amount: number
   currency: string
   description?: string
+  category?: string
   status: string
   createdAt: string
 }
@@ -21,6 +22,7 @@ export default function Dashboard() {
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [amount, setAmount] = useState<number>(0)
   const [description, setDescription] = useState('')
+  const [category, setCategory] = useState<string>('')
   const [mode, setMode] = useState<'receive' | 'send'>('receive')
   const token = localStorage.getItem('token')
   const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) : null
@@ -31,17 +33,21 @@ export default function Dashboard() {
       return
     }
 
-    api.get('/api/transactions').then((res) => setTransactions(res.data))
+    api.get('/api/transactions', { params: { page: 1, limit: 50, sort: '-createdAt' } }).then((res) => {
+      const data = res.data?.items ? res.data.items : res.data
+      setTransactions(Array.isArray(data) ? data : [])
+    })
   }, [token, navigate])
 
   async function createTransaction(e: React.FormEvent) {
     e.preventDefault()
     if (!token) return
     const sign = mode === 'send' ? -1 : 1
-    const res = await api.post('/api/transactions', { amount: Number(amount) * sign, description, currency: 'ZAR' })
+    const res = await api.post('/api/transactions', { amount: Number(amount) * sign, description, category: category || undefined, currency: 'ZAR' })
     setTransactions((prev) => [res.data, ...prev])
     setAmount(0)
     setDescription('')
+    setCategory('')
   }
 
   const balance = transactions.reduce((sum, t) => sum + t.amount, 0)
@@ -55,14 +61,28 @@ export default function Dashboard() {
         <button className={mode === 'send' ? 'active' : ''} onClick={() => setMode('send')}>Send</button>
       </div>
 
-      <form onSubmit={createTransaction} className="row" style={{ alignItems: 'flex-end' }}>
-        <div className="col" style={{ flex: 1 }}>
+      <form onSubmit={createTransaction} className="row-wrap" style={{ alignItems: 'flex-end' }}>
+        <div className="col field">
           <span className="muted" style={{ fontSize: 12 }}>Amount</span>
           <Input type="number" min={0} step="0.01" value={amount} onChange={(e) => setAmount(parseFloat(e.target.value))} />
         </div>
-        <div className="col" style={{ flex: 2 }}>
+        <div className="col field-lg">
           <span className="muted" style={{ fontSize: 12 }}>Description</span>
           <Input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
+        </div>
+        <div className="col field">
+          <span className="muted" style={{ fontSize: 12 }}>Category</span>
+          <select className="input" value={category} onChange={(e) => setCategory(e.target.value)}>
+            <option value="">Uncategorized</option>
+            <option value="Salary">Salary</option>
+            <option value="Food">Food</option>
+            <option value="Transport">Transport</option>
+            <option value="Bills">Bills</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Health">Health</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
         <Button type="submit" variant="primary">{mode === 'send' ? 'Send' : 'Receive'}</Button>
       </form>
@@ -78,7 +98,7 @@ export default function Dashboard() {
               <div className="amount" style={{ color: t.amount >= 0 ? 'var(--success)' : 'var(--danger)' }}>
                 {t.amount >= 0 ? '+' : '-'}{formatZAR(Math.abs(t.amount))}
               </div>
-              <div className="muted" style={{ fontSize: 12 }}>{t.status}</div>
+              <div className="muted" style={{ fontSize: 12 }}>{t.category ? `Category: ${t.category}` : t.status}</div>
             </div>
           </div>
         ))}
