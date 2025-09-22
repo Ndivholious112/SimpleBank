@@ -36,7 +36,7 @@ Track your spending. Stay in control. Keep it simple. 🚀
 
 ## 🖼 Preview
 
-![SimpleBank Homepage](./screenshot/homepage.png)
+![SimpleBank Homepage](./screenshot/home.png)
 
 ---
 
