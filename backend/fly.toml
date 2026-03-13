@@ -1,0 +1,16 @@
+# Fly.io config for SimpleBank backend
+# Replace "your-fly-app-name" with the app name you create on fly.io
+
+app = "your-fly-app-name"
+
+[build]
+  image = ""
+
+[env]
+  # Set these via Fly secrets or in GitHub Actions (recommended)
+  # MONGODB_URI = ""
+  # JWT_SECRET = ""
+  # CORS_ORIGIN = ""
+
+[deploy]
+  release_command = ""
